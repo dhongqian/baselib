@@ -21,39 +21,51 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\TaskBind.h">
+    <ClInclude Include="..\..\..\include\baselib\FuncWrapper.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ThreadBase.h">
+    <ClInclude Include="..\..\..\include\baselib\IThread.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ThreadObj.h">
+    <ClInclude Include="..\..\..\include\baselib\StringUtility.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ThreadObject.h">
+    <ClInclude Include="..\..\..\include\baselib\TaskThread.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ThreadTask.h">
+    <ClInclude Include="..\..\..\include\baselib\Utility.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\FuncWrapper.h">
+    <ClInclude Include="..\..\..\include\baselib\BufferUtility.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\FuncWrapperDef.h">
+    <ClInclude Include="..\..\..\include\baselib\DataStream.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\FuncWrapperThread.h">
+    <ClInclude Include="..\..\..\include\baselib\cJSON.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\baselib\CJsonObject.hpp">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\FuncBindThread.cpp">
+    <ClCompile Include="..\..\..\src\baselib\StringUtility.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ThreadObj.cpp">
+    <ClCompile Include="..\..\..\src\baselib\TaskThread.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ThreadObject.cpp">
+    <ClCompile Include="..\..\..\src\baselib\Utility.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\baselib\BufferUtility.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\baselib\cJSON.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\baselib\CJsonObject.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
