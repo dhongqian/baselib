@@ -1,4 +1,4 @@
-#include "DownloadAlogrithm.h"
+﻿#include "DownloadAlogrithm.h"
 #include <baselib/Utility.h>
 #include <iomanip>
 #include "baselib/DataStream.h"

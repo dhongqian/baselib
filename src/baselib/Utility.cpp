@@ -1,4 +1,4 @@
-#include "baselib/Utility.h"
+﻿#include "baselib/Utility.h"
 #include <vector>
 
 namespace hq{

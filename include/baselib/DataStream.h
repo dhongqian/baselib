@@ -1,4 +1,4 @@
-#ifndef _HQ_BASE_LIB_DATA_STREAM_H_
+﻿#ifndef _HQ_BASE_LIB_DATA_STREAM_H_
 #define _HQ_BASE_LIB_DATA_STREAM_H_
 
 #ifdef WIN32

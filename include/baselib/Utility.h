@@ -1,4 +1,4 @@
-#ifndef _HQ_BASELIB_UTILITY_H_
+﻿#ifndef _HQ_BASELIB_UTILITY_H_
 #define _HQ_BASELIB_UTILITY_H_
 
 #include <string>

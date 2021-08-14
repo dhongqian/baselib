@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #ifndef __HQ_BASE_LIB_BUFFER_UTILITY_H__
 #define __HQ_BASE_LIB_BUFFER_UTILITY_H__
 

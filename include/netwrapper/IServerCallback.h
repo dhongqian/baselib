@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #ifndef __HQ_NET_WRAPPER_ISERVER_CALLBACK_H__
 
 #include <memory>

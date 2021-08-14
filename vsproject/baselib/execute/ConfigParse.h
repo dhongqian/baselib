@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #ifndef HQ_EXECUTE_CONFIG_PARSE_H_
 #define HQ_EXECUTE_CONFIG_PARSE_H_
 

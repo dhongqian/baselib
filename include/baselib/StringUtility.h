@@ -1,4 +1,4 @@
-#ifndef __HQ_BASE_LIB_STRING_UTILITY_H__
+﻿#ifndef __HQ_BASE_LIB_STRING_UTILITY_H__
 
 #include <string>
 #include <algorithm>

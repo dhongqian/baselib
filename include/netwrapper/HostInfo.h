@@ -1,4 +1,4 @@
-#ifndef _HQ_BASELIB_HOST_INFO_H_
+﻿#ifndef _HQ_BASELIB_HOST_INFO_H_
 #define _HQ_BASELIB_HOST_INFO_H_
 
 #include <string>

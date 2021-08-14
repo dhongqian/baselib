@@ -1,4 +1,4 @@
-#ifndef _HQ_BASELIB_TASK_THREAD_H_
+﻿#ifndef _HQ_BASELIB_TASK_THREAD_H_
 #define _HQ_BASELIB_TASK_THREAD_H_
 
 #include <string>

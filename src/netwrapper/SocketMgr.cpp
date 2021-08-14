@@ -1,4 +1,4 @@
-#include "SocketMgr.h"
+ï»¿#include "SocketMgr.h"
 #include "Client.h"
 #include <cassert>
 #include "ServerCallback.h"
@@ -25,7 +25,7 @@ struct sockaddr_in getSockAddrFromHostInfo(const HostInfo &host_info) {
 SocketMgr::SocketMgr(): event_base_(nullptr), socket_thread_(nullptr) {
 #ifdef WIN32
     WSADATA wsaData;
-    /// WSAStartup¿ÉÒÔµ÷ÓÃ¶à´Î£¬ÓëÖ®¶ÔÓ¦µÄWSACleanupÒ²Òª²¹³äµ÷ÓÃ¶à´Î¡£Ö»ÓĞ×îºóÒ»´ÎµÄWSACleanup²Å»áÖ´ĞĞÇåÀí²Ù×÷
+    /// WSAStartupå¯ä»¥è°ƒç”¨å¤šæ¬¡ï¼Œä¸ä¹‹å¯¹åº”çš„WSACleanupä¹Ÿè¦è¡¥å……è°ƒç”¨å¤šæ¬¡ã€‚åªæœ‰æœ€åä¸€æ¬¡çš„WSACleanupæ‰ä¼šæ‰§è¡Œæ¸…ç†æ“ä½œ
     int ret = WSAStartup(MAKEWORD(2, 2), &wsaData);
     if(ret != 0) {
         printf("WSAStartup failed: %d\n", ret);
@@ -129,7 +129,7 @@ int SocketMgr::stop() {
 }
 
 int SocketMgr::prepareMsgSocket() {
-    /// Ã»ÓĞÌØÊâĞèÇó£¬¿ÉÖ»°ó¶¨Ò»¸öfdÖÁevent
+    /// æ²¡æœ‰ç‰¹æ®Šéœ€æ±‚ï¼Œå¯åªç»‘å®šä¸€ä¸ªfdè‡³event
     if(evutil_socketpair(AF_UNIX, SOCK_STREAM, 0, msg_socket_pair_) == -1) {
         return -1;
     }
@@ -326,7 +326,7 @@ IClientPtr SocketMgr::startTcpClient(const HostInfo& host_info, std::shared_ptr<
         return nullptr;
     }
 
-    //Á¬½Ó·şÎñ¶Ë
+    //è¿æ¥æœåŠ¡ç«¯
     int flag = bufferevent_socket_connect(bev, (struct ::sockaddr*)&sin, sizeof(sin));
     if(-1 == flag) {
         LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("netwrapper"), " buffer event connect failed.");
@@ -349,7 +349,7 @@ IClientPtr SocketMgr::startTcpClient(const HostInfo& host_info, std::shared_ptr<
         return nullptr;
     }
 
-    //°ó¶¨¶ÁÊÂ¼ş»Øµ÷º¯Êı¡¢Ğ´ÊÂ¼ş»Øµ÷º¯Êı¡¢´íÎóÊÂ¼ş»Øµ÷º¯Êı
+    //ç»‘å®šè¯»äº‹ä»¶å›è°ƒå‡½æ•°ã€å†™äº‹ä»¶å›è°ƒå‡½æ•°ã€é”™è¯¯äº‹ä»¶å›è°ƒå‡½æ•°
     bufferevent_setcb(socket_data->buffer_event, read_callback, write_callback, tcp_event_callback, socket_data);
 
     //bufferevent_enable(socket_data->buffer_event, EV_WRITE);
@@ -379,7 +379,7 @@ int SocketMgr::startTcpServer(const HostInfo& host_info, std::shared_ptr<IServer
         LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("netwrapper"), " new listener data failed.");
         return -1;
     }
-    //´´½¨¡¢°ó¶¨¡¢¼àÌısocket
+    //åˆ›å»ºã€ç»‘å®šã€ç›‘å¬socket
     listener_data->tcp_listener = evconnlistener_new_bind(event_base_, listener_callback, (void*)listener_data,
                                        LEV_OPT_REUSEABLE | LEV_OPT_CLOSE_ON_FREE, -1,
                                        (struct ::sockaddr*)&sin,
@@ -449,7 +449,7 @@ void SocketMgr::handleAccept(struct evconnlistener* tcp_listener, evutil_socket_
         }
     }
 
-    //¹¹ÔìÒ»¸öbufferevent
+    //æ„é€ ä¸€ä¸ªbufferevent
     socket_data->buffer_event = bufferevent_socket_new(event_base_, fd, BEV_OPT_CLOSE_ON_FREE);
     if(!socket_data->buffer_event) {
         //fprintf(stderr, "Error constructing bufferevent!");
@@ -457,7 +457,7 @@ void SocketMgr::handleAccept(struct evconnlistener* tcp_listener, evutil_socket_
         goto accept_error_2;
     }
 
-    //°ó¶¨¶ÁÊÂ¼ş»Øµ÷º¯Êı¡¢Ğ´ÊÂ¼ş»Øµ÷º¯Êı¡¢´íÎóÊÂ¼ş»Øµ÷º¯Êı
+    //ç»‘å®šè¯»äº‹ä»¶å›è°ƒå‡½æ•°ã€å†™äº‹ä»¶å›è°ƒå‡½æ•°ã€é”™è¯¯äº‹ä»¶å›è°ƒå‡½æ•°
     bufferevent_setcb(socket_data->buffer_event, read_callback, write_callback, tcp_event_callback, socket_data);
 
     bufferevent_enable(socket_data->buffer_event, EV_WRITE);
@@ -609,7 +609,7 @@ void listener_callback(struct evconnlistener* listener, evutil_socket_t fd, stru
     }
 }
 
-// ¶Á»º³åÇø»Øµ÷
+// è¯»ç¼“å†²åŒºå›è°ƒ
 void read_callback(struct bufferevent* bev, void* arg) {
     assert(nullptr!=bev && nullptr!=arg);
     SocketData *socket_data = (SocketData*)arg;
@@ -633,12 +633,12 @@ void read_callback(struct bufferevent* bev, void* arg) {
     }
 }
 
-// Ğ´»º³åÇø»Øµ÷
+// å†™ç¼“å†²åŒºå›è°ƒ
 void write_callback(struct bufferevent* bev, void* arg) {
-    //printf("ÎÒÊÇĞ´»º³åÇøµÄ»Øµ÷º¯Êı...ÄúÒÑ·¢ËÍ\n");
+    //printf("æˆ‘æ˜¯å†™ç¼“å†²åŒºçš„å›è°ƒå‡½æ•°...æ‚¨å·²å‘é€\n");
 }
 
-// ÊÂ¼ş
+// äº‹ä»¶
 void tcp_event_callback(struct bufferevent* bev, short events, void* arg) {
     if(events & BEV_EVENT_EOF) {
         LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("netwrapper"), " connection closed.");
@@ -696,14 +696,14 @@ void udp_event_callback(evutil_socket_t fd, short events, void* param) {
     if(events & EV_ERR) {
         int error_code = GetLastError();
         printf(" %llu, read data failed: last error_no[%d].\n", socket_data->id, error_code);
-        LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("netwrapper"), " " << socket_data->id << ", read data failed£¬ last_error_no: " << error_code);
+        LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("netwrapper"), " " << socket_data->id << ", read data failedï¼Œ last_error_no: " << error_code);
         socket_data->socket_mgr->handleError(socket_data, error_code);
     }
 }
 
-// ¶¨Ê±ÊÂ¼ş»Øµ÷º¯Êı
+// å®šæ—¶äº‹ä»¶å›è°ƒå‡½æ•°
 void timer_callback(int sock, short event, void* arg) {
-    // ÖØĞÂÌí¼Ó¶¨Ê±ÊÂ¼ş£¨¶¨Ê±ÊÂ¼ş´¥·¢ºóÄ¬ÈÏ×Ô¶¯É¾³ı£©
+    // é‡æ–°æ·»åŠ å®šæ—¶äº‹ä»¶ï¼ˆå®šæ—¶äº‹ä»¶è§¦å‘åé»˜è®¤è‡ªåŠ¨åˆ é™¤ï¼‰
     TimerEventInfo* timer_info = (TimerEventInfo*)arg;
     if(nullptr == timer_info) {
         return ;

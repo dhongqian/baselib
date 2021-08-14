@@ -1,4 +1,4 @@
-#include "ConfigParse.h"
+﻿#include "ConfigParse.h"
 #include <baselib/Utility.h>
 #include <jsoncpp/reader.h>
 

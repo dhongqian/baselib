@@ -1,4 +1,4 @@
-#include "SocketMgr.h"
+﻿#include "SocketMgr.h"
 #include "Client.h"
 
 namespace hq {

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #ifndef __HQ_NET_WRAPPER_ICLIENT_NOTIFY_H__
 
 #include <string>

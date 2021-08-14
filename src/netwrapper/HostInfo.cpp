@@ -1,4 +1,4 @@
-#include "netwrapper/HostInfo.h"
+﻿#include "netwrapper/HostInfo.h"
 #include <vector>
 
 namespace hq{

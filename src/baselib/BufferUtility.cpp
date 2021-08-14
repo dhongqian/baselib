@@ -1,4 +1,4 @@
-#include "baselib/BufferUtility.h"
+﻿#include "baselib/BufferUtility.h"
 
 namespace hq {
 

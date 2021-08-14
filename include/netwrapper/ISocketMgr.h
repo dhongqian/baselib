@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #ifndef __HQ_NET_WRAPPER_ISOCKET_MGR_H__
 
 #include <memory>

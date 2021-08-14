@@ -1,4 +1,4 @@
-#ifndef __HQ_BASE_LIB_FUNC_WRAPPER_H_
+﻿#ifndef __HQ_BASE_LIB_FUNC_WRAPPER_H_
 #define __HQ_BASE_LIB_FUNC_WRAPPER_H_
 
 #include <memory>
