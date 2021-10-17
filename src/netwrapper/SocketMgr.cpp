@@ -38,24 +38,18 @@ SocketMgr::~SocketMgr() {
 int SocketMgr::start(const int pool_size/*=0*/) {
     if(nullptr != event_base_) return 0;
     event_base_ = event_base_new();
+    // add iocp for win32
+    struct event_config* event_cfg = event_config_new();
+    if (nullptr != event_cfg) {
+        event_config_set_flag(event_cfg, EVENT_BASE_FLAG_STARTUP_IOCP);
+        event_base_ = event_base_new_with_config(event_cfg);
+        event_config_free(event_cfg);
+        event_cfg = nullptr;
+    }
     if(nullptr == event_base_) return -1;
 
     LOG4CPLUS_DEBUG(log4cplus::Logger::getInstance("netwrapper"), "begin.");
-#ifdef SOCKET_MGR_TEST
-    { ///< for test
-        int i;
-        const char** methods = event_get_supported_methods();
-        LOG4CPLUS_DEBUG(log4cplus::Logger::getInstance("netwrapper"), " starting libevent " << event_get_version());
-        printf("Starting Libevent %s. Available methods are:\n", event_get_version());
-        for(i = 0; methods[i] != NULL; ++i)
-        {
-            printf("\t%s\n", methods[i]);
-            LOG4CPLUS_DEBUG(log4cplus::Logger::getInstance("netwrapper"), "\t " << methods[i]);
-        }
-    }
-#endif
 
-    prepareNotifySocket();
     socket_thread_ = new std::thread([=]() {
         net::setThreadName("netwrapper");
         event_base_dispatch(event_base_);
@@ -75,6 +69,8 @@ int SocketMgr::start(const int pool_size/*=0*/) {
     assert(nullptr != server_mgr_ptr_);
     timer_mgr_ptr_ = new TimerMgr(this->shared_from_this());
     assert(nullptr != timer_mgr_ptr_);
+
+    prepareNotifySocket();
 
     return 0;
 }
@@ -255,7 +251,7 @@ int SocketMgr::send(const uint64_t client_id, HostInfo& host_info, std::shared_p
 }
 
 int SocketMgr::sendNotify() {
-    char c = 'k';
+    char c = 'p';
     if(notify_socket_ > 0) {
         int ret = ::send(notify_socket_, (const char*)&c, 1, 0);
         if(ret < 0) {
@@ -279,6 +275,18 @@ void SocketMgr::handleSend(const HostInfo& remote_host_info, std::size_t size) {
 
 void SocketMgr::handleError(const int errror_code) {
     notify_client_ptr_.reset();
+}
+
+void SocketMgr::getSupportMethod() {
+    int i;
+    const char** methods = event_get_supported_methods();
+    LOG4CPLUS_DEBUG(log4cplus::Logger::getInstance("netwrapper"), " starting libevent " << event_get_version());
+    printf("Starting Libevent %s. Available methods are:\n", event_get_version());
+    for (i = 0; methods[i] != NULL; ++i)
+    {
+        printf("\t%s\n", methods[i]);
+        LOG4CPLUS_DEBUG(log4cplus::Logger::getInstance("netwrapper"), "\t " << methods[i]);
+    }
 }
 
 ISocketMgrPtr createSocketMgr() {

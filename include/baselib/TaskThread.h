@@ -6,7 +6,7 @@
 #include <list>
 #include <thread>
 #include <mutex>
-#include <map>>
+#include <map>
 #include <condition_variable>
 #include "FuncWrapper.h"
 #include "Utility.h"

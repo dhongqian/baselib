@@ -83,6 +83,7 @@ public:
 protected:
     int prepareNotifySocket();
     int sendNotify();
+    void getSupportMethod();
 
 protected:
     struct event_base* event_base_;
