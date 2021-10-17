@@ -1,23 +1,14 @@
 ﻿// execute.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
 //
 
-#include <iostream>
-#include "netwrapper/ISocketMgr.h"
-#include "netwrapper/IClient.h"
-#include <Windows.h>
-//#include <synchapi.h>
-#include <chrono>
-#include <thread>
-#include <baselib/BufferUtility.h>
-#include "baselib/Utility.h"
-#include "MessageController.h"
-#include "ConfigParse.h"
+#include "manager/manager.h"
 
 using namespace hq;
 
 int main(int argc, char **argv)
 {
     //std::cout << "Hello World!\n";
+#if 0
     if(argc < 6) {
         std::cout << "argv[0] stun_server_ip stun_server_port interval(seconds) remote_ip remote_port local_port(defalut is 32586)\n";
         return 0;
@@ -39,27 +30,11 @@ int main(int argc, char **argv)
 
     auto socket_manager = hq::createSocketMgr();
     if(nullptr == socket_manager) return -1;
+#endif
 
     hq::utility::logInit("log.property");
 
-    hq::ConfigParse config_parse;
-    config_parse.readConfig("config.json");
-    hq::ConfigParse::HostInfoList udp_host_info_list, tcp_host_info_list;
-    config_parse.getHostInfoList(ConfigParse::ConfigHostType::TCP, tcp_host_info_list);
-    config_parse.getHostInfoList(ConfigParse::ConfigHostType::UDP, udp_host_info_list);
-
-    std::for_each(tcp_host_info_list.begin(), tcp_host_info_list.end(), [](ConfigParse::HostInfo& host_info) {
-        std::cout << " address: " << host_info.address
-            << ", port: " << host_info.port
-            << std::endl;
-    });
-
-    std::for_each(udp_host_info_list.begin(), udp_host_info_list.end(), [](ConfigParse::HostInfo& host_info) {
-        std::cout << " address: " << host_info.address
-            << ", port: " << host_info.port
-            << std::endl;
-    });
-
+#if 0
     socket_manager->start();
     //socket_manager->start_udp_client(nullptr, client_ptr);
    // std::string ip("127.0.0.1");
@@ -84,6 +59,10 @@ int main(int argc, char **argv)
 
     //std::string str("who are you!");
     message_controller->start(stun_server);
+#endif
+
+    hq::ManagerPtr manager_ptr = std::make_shared<hq::Manager>();
+    manager_ptr->start();
     while(true) {
         //std::this_thread::sleep_for(std::chrono::duration<int>(1));
         //if(nullptr == send_client_ptr) break;
@@ -94,8 +73,10 @@ int main(int argc, char **argv)
         //printf("%d\n", ret);
         
         //std::cout << "cur seconds: " << time(NULL) << std::endl;
-        Sleep(1000 * interval);
+        Sleep(1000 * 10);
+        manager_ptr->stop();
     }
+    manager_ptr->stop();
 
     return 0;
 

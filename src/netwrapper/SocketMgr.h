@@ -35,54 +35,24 @@ extern "C" {
 #include <mutex>
 #include "netwrapper/ISocketMgr.h"
 #include "baselib/BufferUtility.h"
+#include "netwrapper/IClientCallback.h"
 
 namespace hq {
 
-class SocketMgr;
-struct SocketData {
-    uint64_t     id;
-    evutil_socket_t fd;
-    event* normal_event;
-    bufferevent* buffer_event;
-    SocketMgr* socket_mgr;
-    HostInfo     host_info;
-    std::weak_ptr<IClient> client_ptr;
-    BufferUtilityPtr  read_buff_ptr;
-
-    SocketData() {
-        memset(this, 0, offsetof(SocketData, host_info));
-        read_buff_ptr = std::make_shared<BufferUtility>();
-    }
-};
-
-struct ListenerData {
-    uint64_t     id;
-    struct evconnlistener* tcp_listener;
-    SocketMgr* socket_mgr;
-    HostInfo     host_info;
-    std::shared_ptr<IServerCallback>  server_callback;
-};
-
-struct TimerEventInfo {
-    int timer_id;
-    timeval tv;
-    event* timer_event;
-    SocketMgr* socket_msg;
-    ITimerCallbackPtr timer_callback;
-
-    TimerEventInfo(): timer_id(-1), timer_event(nullptr), socket_msg(nullptr) {
-        tv.tv_sec = 0;
-        tv.tv_usec = 0;
-    }
-};
-
 class IClient;
-class baselib_declspec SocketMgr: public ISocketMgr{
+class ClientMgr;
+class ServerMgr;
+class TimerMgr;
+class baselib_declspec SocketMgr: public ISocketMgr, public IClientCallback, public std::enable_shared_from_this<SocketMgr> {
 public:
     SocketMgr();
     virtual ~SocketMgr();
 
 #define TIMER_INFO_COUNT   (30)
+
+    friend class ClientMgr;
+    friend class ServerMgr;
+    friend class TimerMgr;
 
     virtual int start(const int pool_size = 0);
     virtual int stop();
@@ -98,32 +68,35 @@ public:
     virtual int stopClient(const uint64_t client_id);
 
 public:
-    void handleError(SocketData* socket_data, const int error_code);
-    void handleAccept(struct evconnlistener* tcp_listener, evutil_socket_t fd, HostInfo &remote_host_info, void* ptr);
-
     virtual int startTimer(const int seconds, const int useconds, ITimerCallbackPtr callback_ptr);
     virtual int stopTimer(const int timer_id);
 
+public:
+    int send(const uint64_t client_id, std::shared_ptr<BufferUtility> buffer_ptr);
+    int send(const uint64_t client_id, HostInfo& host_info, std::shared_ptr<BufferUtility> buffer_ptr);
+
+public:
+    virtual void handleRead(const HostInfo& remote_host_info, BufferUtilityPtr read_buffer_ptr, std::size_t size) override;
+    virtual void handleSend(const HostInfo& remote_host_info, std::size_t size) override;
+    virtual void handleError(const int errror_code) override;
+
 protected:
-    evutil_socket_t createUdpSocket();
-    evutil_socket_t createUdpBindSocket(const HostInfo &host_info);
-    int add2socketDataMap(SocketData* socket_data);
-    int closeSocketData(SocketData* &socket_data);
-    int prepareMsgSocket();
-    SocketData *createSocketData(IClientPtr client_ptr, const evutil_socket_t fd, const HostInfo &host_info, bufferevent* bev);
+    int prepareNotifySocket();
+    int sendNotify();
 
 protected:
     struct event_base* event_base_;
     std::thread* socket_thread_;
-    evutil_socket_t msg_socket_pair_[2];
-    bufferevent* msg_socket_event_pair_[2];
-    std::mutex socket_data_map_mutex_;
-    std::map<uint64_t, SocketData*>    socket_data_map_;
-    std::mutex listener_data_map_mutex_;
-    std::map<uint64_t, ListenerData*>  listener_data_map_;
-    TimerEventInfo* timer_info_arr_[TIMER_INFO_COUNT];
-    std::mutex             timer_arr_mutex_;
+    std::mutex        notify_socket_mutex_;
+    evutil_socket_t notify_socket_;
+    ClientMgr* client_mgr_ptr_;
+    ServerMgr* server_mgr_ptr_;
+    TimerMgr* timer_mgr_ptr_;
+    IClientPtr              notify_client_ptr_;
 };
+
+typedef std::shared_ptr<SocketMgr>  SocketMgrPtr;
+
 }
 
 #endif ///< __HQ_NET_WRAPPER_SOCKET_MGR_H__

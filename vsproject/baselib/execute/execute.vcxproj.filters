@@ -19,6 +19,9 @@
     <Filter Include="download">
       <UniqueIdentifier>{0fa17deb-d634-4d30-805b-47d4839f0ef6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="manager">
+      <UniqueIdentifier>{677b6a59-fe02-4d75-b8fc-b055053b9dc6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="execute.cpp">
@@ -36,6 +39,15 @@
     <ClCompile Include="ConfigParse.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="manager\manager.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="manager\ManagerClientCallback.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="manager\ManagerServerCallback.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MessageController.h">
@@ -49,6 +61,15 @@
     </ClInclude>
     <ClInclude Include="ConfigParse.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="manager\manager.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="manager\ManagerClientCallback.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="manager\ManagerServerCallback.h">
+      <Filter>manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

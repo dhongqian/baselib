@@ -39,6 +39,15 @@
     <ClCompile Include="..\..\..\src\netwrapper\Utility.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\netwrapper\ClientMgr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\netwrapper\ServerMgr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\netwrapper\TimerMgr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\netwrapper\IClientCallback.h">
@@ -79,6 +88,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\netwrapper\ITimerCallback.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\netwrapper\ClientMgr.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\netwrapper\ServerMgr.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\netwrapper\TimerMgr.h">
+      <Filter>源文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

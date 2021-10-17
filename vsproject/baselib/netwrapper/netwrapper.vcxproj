@@ -149,10 +149,13 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\src\netwrapper\Client.cpp" />
     <ClCompile Include="..\..\..\src\netwrapper\ClientCallback.cpp" />
+    <ClCompile Include="..\..\..\src\netwrapper\ClientMgr.cpp" />
     <ClCompile Include="..\..\..\src\netwrapper\ClientNotify.cpp" />
     <ClCompile Include="..\..\..\src\netwrapper\HostInfo.cpp" />
     <ClCompile Include="..\..\..\src\netwrapper\ServerCallback.cpp" />
+    <ClCompile Include="..\..\..\src\netwrapper\ServerMgr.cpp" />
     <ClCompile Include="..\..\..\src\netwrapper\SocketMgr.cpp" />
+    <ClCompile Include="..\..\..\src\netwrapper\TimerMgr.cpp" />
     <ClCompile Include="..\..\..\src\netwrapper\Utility.cpp" />
     <ClCompile Include="netwrapper.cpp" />
   </ItemGroup>
@@ -167,9 +170,12 @@
     <ClInclude Include="..\..\..\include\netwrapper\Utility.h" />
     <ClInclude Include="..\..\..\src\netwrapper\Client.h" />
     <ClInclude Include="..\..\..\src\netwrapper\ClientCallback.h" />
+    <ClInclude Include="..\..\..\src\netwrapper\ClientMgr.h" />
     <ClInclude Include="..\..\..\src\netwrapper\ClientNotify.h" />
     <ClInclude Include="..\..\..\src\netwrapper\ServerCallback.h" />
+    <ClInclude Include="..\..\..\src\netwrapper\ServerMgr.h" />
     <ClInclude Include="..\..\..\src\netwrapper\SocketMgr.h" />
+    <ClInclude Include="..\..\..\src\netwrapper\TimerMgr.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

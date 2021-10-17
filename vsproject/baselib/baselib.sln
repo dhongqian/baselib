@@ -17,6 +17,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "netwrapper", "netwrapper\ne
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cmdNotify", "cmdNotify\cmdNotify.vcxproj", "{27BCBD2B-824E-4109-BDB8-0F167979E1E7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F10D5522-9475-43A0-B116-672E67C3F1EF} = {F10D5522-9475-43A0-B116-672E67C3F1EF}
+		{4D4084E7-3497-404D-9336-E56879FC9B43} = {4D4084E7-3497-404D-9336-E56879FC9B43}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

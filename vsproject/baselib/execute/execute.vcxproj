@@ -149,12 +149,18 @@
     <ClCompile Include="ConfigParse.cpp" />
     <ClCompile Include="download\DownloadAlogrithm.cpp" />
     <ClCompile Include="execute.cpp" />
+    <ClCompile Include="manager\manager.cpp" />
+    <ClCompile Include="manager\ManagerClientCallback.cpp" />
+    <ClCompile Include="manager\ManagerServerCallback.cpp" />
     <ClCompile Include="MessageController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cmd\UdpCmd.h" />
     <ClInclude Include="ConfigParse.h" />
     <ClInclude Include="download\DownloadAlogrithm.h" />
+    <ClInclude Include="manager\manager.h" />
+    <ClInclude Include="manager\ManagerClientCallback.h" />
+    <ClInclude Include="manager\ManagerServerCallback.h" />
     <ClInclude Include="MessageController.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,9 +1,40 @@
 ﻿#include "ConfigParse.h"
+#include <cstring>
+#include <cstdio>
 #include <baselib/Utility.h>
 #include <jsoncpp/reader.h>
 
 
 namespace hq {
+
+bool ConfigParse::ConfigHostInfo::operator==(const ConfigHostInfo& host_info) {
+    if(this->address != host_info.address) return false;
+    if(this->port != host_info.port) return false;
+    if(this->type != host_info.type) return false;
+    if(this->is_client != host_info.is_client) return false;
+    return true;
+}
+
+bool ConfigParse::ConfigHostInfo::operator>(const ConfigHostInfo& host_info) {
+    if(this->address > host_info.address) return true;
+    if(this->port > host_info.port) return true;
+    if(this->type > host_info.type) return true;
+    if(this->is_client > host_info.is_client) return true;
+    return false;
+}
+
+bool ConfigParse::ConfigHostInfo::operator<(const ConfigHostInfo& host_info) {
+    return !(*this > host_info);
+}
+
+bool ConfigParse::ConfigHostInfo::operator>=(const ConfigHostInfo& host_info) {
+    return (*this > host_info || *this == host_info);
+}
+
+bool ConfigParse::ConfigHostInfo::operator<= (const ConfigHostInfo& host_info) {
+    return (*this < host_info || *this == host_info);;
+}
+
 
 ConfigParse::ConfigParse() {
 
@@ -101,15 +132,17 @@ int ConfigParse::getHostList(const char* key, Json::Value& root, ConfigParse::Ho
         return -1;
     }
 
+    bool is_client = (0 == std::strcmp("client", key));
     for(size_t i = 0; i < json_tcp_array.size(); ++i) {
         Json::Value item = json_tcp_array[i];
-        HostInfo host_info;
+        ConfigHostInfo host_info;
         host_info.address = (item.isMember("ip") && item["ip"].isString()) ? item["ip"].asString() : "";
         host_info.port = (item.isMember("port") && item["port"].isInt()) ? item["port"].asInt() : 0;
         std::string type = (item.isMember("type") && item["type"].isString()) ? item["type"].asString() : "";
         if(host_info.address.empty() || type.empty()) continue;
         if(type == "tcp" || type == "udp") {
             host_info.type = (type == "tcp") ? ConfigHostType::TCP : ConfigHostType::UDP;
+            host_info.is_client = is_client;
             host_info_list.push_back(host_info);
         }
     }
@@ -118,18 +151,17 @@ int ConfigParse::getHostList(const char* key, Json::Value& root, ConfigParse::Ho
 }
 
 int ConfigParse::getHostInfoList(const ConfigHostType host_type, HostInfoList& host_list) {
-    if(ConfigHostType::TCP == host_type) {
-        //std::copy(tcp_host_list_.begin(), tcp_host_list_.end(), host_list);
-        for(auto it = server_list_.begin(); it != server_list_.end(); ++it) {
+    for(auto it = server_list_.begin(); it != server_list_.end(); ++it) {
+        if(it->type == host_type) {
             host_list.push_back(*it);
         }
     }
-    else if(ConfigHostType::UDP == host_type) {
-        //std::copy(udp_host_list_.begin(), udp_host_list_.end(), host_list);
-        for(auto it = client_list_.begin(); it != client_list_.end(); ++it) {
+    for(auto it = client_list_.begin(); it != client_list_.end(); ++it) {
+        if(it->type == host_type) {
             host_list.push_back(*it);
         }
     }
+
     return 0;
 }
 

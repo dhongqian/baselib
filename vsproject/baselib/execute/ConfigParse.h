@@ -5,6 +5,7 @@
 #include <string>
 #include <list>
 #include <jsoncpp/json.h>
+#include <netwrapper/HostInfo.h>
 
 namespace hq {
 class ConfigParse final {
@@ -18,15 +19,26 @@ public:
         ConfigHostTypeEnd
     };
 
-    struct HostInfo {
+    struct ConfigHostInfo {
         std::string address;
         uint16_t    port;
         ConfigHostType type;
+        bool is_client;
 
-        HostInfo(): port(0), type(ConfigHostType::UDP) {}
+        ConfigHostInfo(): port(0), type(ConfigHostType::UDP), is_client(false) {}
+
+        HostInfo getHostInfo() {
+            return HostInfo(address, port);
+        }
+
+        bool operator==(const ConfigHostInfo& host_info);
+        bool operator>(const ConfigHostInfo& host_info);
+        bool operator<(const ConfigHostInfo& host_info);
+        bool operator>=(const ConfigHostInfo& host_info);
+        bool operator<=(const ConfigHostInfo& host_info);
     };
 
-    typedef std::list<HostInfo>   HostInfoList;
+    typedef std::list<ConfigHostInfo>   HostInfoList;
     int readConfig(const std::string& file_name);
     int getHostInfoList(const ConfigHostType host_type, HostInfoList& host_list);
 

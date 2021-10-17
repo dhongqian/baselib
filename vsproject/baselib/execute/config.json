@@ -1,20 +1,8 @@
 {
-	"server": [{
-		"ip": "127.0.0.1",
-		"port": 56880,
-		"type": "tcp"
-	},
-	{
-		"ip": "127.0.0.1",
-		"port": 56880,
-		"type": "udp"
-	}
-	],
 	"client": [{
 		"ip": "127.0.0.1",
 		"port": 56880,
 		"type": "tcp"
 	}
-	<!-- client no udp protocol -->
 	]
 }

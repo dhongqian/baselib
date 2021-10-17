@@ -30,9 +30,7 @@ public:
     typedef std::shared_ptr<IClientCallback>   IClientCallbackPtr;
     typedef std::shared_ptr<BufferUtility>     BufferUtilityPtr;
 
-    virtual int start(IClientCallbackPtr callback_ptr, void* param = NULL) = 0;
-    virtual int start(const HostInfo &host_info, std::shared_ptr<IClientCallback> callback_ptr, void *param=NULL) = 0;
-    virtual int stop() = 0;
+    virtual int setCallback(IClientCallbackPtr callback_ptr) = 0;
 
     virtual int send(std::shared_ptr<BufferUtility> buffer_ptr) =0;
     virtual int read(std::shared_ptr<BufferUtility> buffer_ptr) = 0;

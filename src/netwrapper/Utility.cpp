@@ -8,35 +8,68 @@
  */
 #pragma once
 
+#include <netwrapper/Utility.h>
 #include <memory>
 #include <thread>
-extern "C" {
-#include <event.h>
-#include <event2/bufferevent.h>
-#include <event2/buffer.h>
-#include <event2/listener.h>
-#include <event2/util.h>
-#include <event2/thread.h>
-
-#ifndef WIN32
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <sys/socket.h>
-#else
-#include <Windows.h>
-#include <WinSock2.h>
-#pragma comment(lib,"Ws2_32.lib ")
-#include <Iphlpapi.h>
-#pragma  comment(lib, "Iphlpapi.lib")
-#include <io.h>
-#endif
-}
+#include <string>
 
 namespace hq {
 
 namespace net {
 
+void setThreadName(const std::string& thread_name) {
+#ifndef _WIN32
+    if(!thread->m_threadName.empty()) {
+#ifdef __APPLE__
+        pthread_setname_np(thread->m_threadName.c_str());
+#elif defined(__linux__)
+        prctl(PR_SET_NAME, thread->m_threadName.c_str());
+#endif
+    }
+#endif
+}
 
+struct sockaddr_in getSockAddrFromHostInfo(const HostInfo& host_info) {
+    struct sockaddr_in sin;
+    memset(&sin, 0, sizeof(sin));
+    sin.sin_addr.s_addr = host_info.getIP();
+    sin.sin_family = AF_INET;
+    sin.sin_port = htons(host_info.getPort());
+
+    return sin;
+}
+
+evutil_socket_t createNoBlockingSocket(const int type) {
+    int fd = ::socket(AF_INET, type/*SOCK_DGRAM*/, 0);
+    if(fd < 0) {
+        LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("netwrapper"), " create socket failed.");
+        return fd;
+    }
+
+    int ret = evutil_make_socket_nonblocking(fd);
+    if(ret < 0) {
+        evutil_closesocket(fd);
+        LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("netwrapper"), " set socket noblock failed.");
+        return -1;
+    }
+    return fd;
+}
+
+evutil_socket_t createBindNoBlockingSocket(const HostInfo& host_info, const int type) {
+    int fd = createNoBlockingSocket(type);
+    if(fd < 0) {
+        return -1;
+    }
+
+    struct sockaddr_in sin = net::getSockAddrFromHostInfo(host_info);
+    int ret = ::bind(fd, (struct sockaddr*)&sin, sizeof(sin));
+    if(ret < 0) {
+        evutil_closesocket(fd);
+        LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("netwrapper"), " bind socket failed.");
+        return ret;
+    }
+    return fd;
+}
 }
 
 }
