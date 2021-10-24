@@ -11,8 +11,8 @@
 
 #include <string>
 #include <memory>
-#include "baselib/Utility.h"
 #include "netwrapper/HostInfo.h"
+#include "baselib/Utility.h"
 #include "baselib/BufferUtility.h"
 
 namespace hq {

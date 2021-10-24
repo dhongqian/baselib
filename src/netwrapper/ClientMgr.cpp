@@ -262,14 +262,14 @@ IClientPtr ClientMgr::startTcpClient(evutil_socket_t fd, std::shared_ptr<IClient
 
 int ClientMgr::stopAllClient() {
     std::lock_guard<std::mutex> mutex_guard(socket_data_map_mutex_);
-    for(auto &item : socket_data_map_) {
-        closeClientByClientID(item.second->id);
+    for(auto& item : socket_data_map_) {
+        closeSocketData(item.second);
     }
     socket_data_map_.clear();
     return 0;
 }
 
-int ClientMgr::stopClient(const uint64_t client_id) {
+int ClientMgr::stopClient(const uint64_t client_id) {;
     return closeClientByClientID(client_id);
 }
 

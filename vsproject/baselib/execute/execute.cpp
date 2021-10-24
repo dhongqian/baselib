@@ -1,6 +1,7 @@
 ﻿// execute.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
 //
 
+#include "netwrapper/HostInfo.h"
 #include "manager/manager.h"
 
 using namespace hq;
@@ -74,7 +75,8 @@ int main(int argc, char **argv)
         
         //std::cout << "cur seconds: " << time(NULL) << std::endl;
         Sleep(1000 * 10);
-        manager_ptr->stop();
+        //manager_ptr->stop();
+        break;
     }
     manager_ptr->stop();
 

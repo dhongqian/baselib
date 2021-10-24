@@ -64,8 +64,12 @@ uint64_t Client::getClientID() {
 }
 
 HostInfo Client::localHostInfo() {
-    struct sockaddr_in local_addr;
-    int socket_len = sizeof(local_addr);
+    //struct sockaddr_in local_addr;
+    //struct sockaddr_storage local_addr_storage;
+    sockaddr_storage local_addr;
+    //socklen_t addlen = 0;
+
+    socklen_t socket_len = sizeof(local_addr);
     /// The getsockname function retrieves the local name for a socket.
     int ret = getsockname(socket_fd_, (sockaddr*)&local_addr, &socket_len);
     if(0 != ret) {
@@ -73,8 +77,18 @@ HostInfo Client::localHostInfo() {
         return HostInfo();
     }
 
-    HostInfo host_info(local_addr.sin_addr.s_addr, local_addr.sin_port);
-    return host_info;
+    if(AF_INET == local_addr.ss_family) {
+        struct sockaddr_in* socket_v4 = (struct sockaddr_in*)(&local_addr);
+        HostInfo host_info(socket_v4);
+        return host_info;
+    }
+    else if(AF_INET6 == local_addr.ss_family) {
+        struct sockaddr_in6* socket_v6 = (struct sockaddr_in6*)(&local_addr);
+        HostInfo host_info(socket_v6);
+        return host_info;
+    }
+
+    return HostInfo();
 }
 
 HostInfo Client::remoteHostInfo() {

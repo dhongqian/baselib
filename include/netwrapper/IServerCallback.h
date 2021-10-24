@@ -2,6 +2,7 @@
 #ifndef __HQ_NET_WRAPPER_ISERVER_CALLBACK_H__
 
 #include <memory>
+#include "netwrapper/HostInfo.h"
 #include "baselib/Utility.h"
 
 namespace hq {

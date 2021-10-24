@@ -2,6 +2,7 @@
 //
 
 #include <iostream>
+#include "netwrapper/Utility.h"
 #include "netwrapper/ISocketMgr.h"
 #include "netwrapper/IClient.h"
 #include <Windows.h>

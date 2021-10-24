@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <iostream>
+#include "netwrapper/HostInfo.h"
 #include "netwrapper/ISocketMgr.h"
 #include "netwrapper/IClient.h"
 #include <Windows.h>

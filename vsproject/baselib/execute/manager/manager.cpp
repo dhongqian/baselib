@@ -34,8 +34,6 @@ int Manager::stop() {
     socket_manager_ptr_->stopTimer(timer_id_);
     stopClient();
     stopServer();
-    stopClient();
-    stopServer();
     if(nullptr != socket_manager_ptr_) {
         socket_manager_ptr_->stop();
     }

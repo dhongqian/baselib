@@ -1,11 +1,11 @@
 ﻿#pragma once
 #include <string>
 #include <atomic>
-#include "baselib/Utility.h"
 #include "netwrapper/HostInfo.h"
 #include "netwrapper/IClient.h"
 #include "netwrapper/IClientCallback.h"
 #include "netwrapper/ITimerCallback.h"
+#include "baselib/Utility.h"
 #include "cmd/UdpCmd.h"
 
 namespace hq {

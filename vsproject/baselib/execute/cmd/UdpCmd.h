@@ -1,10 +1,10 @@
 ﻿#pragma once
 #include <string>
 #include <atomic>
-#include "baselib/Utility.h"
 #include "netwrapper/HostInfo.h"
-#include "netwrapper/IClient.h"
 #include "netwrapper/IClientCallback.h"
+#include "baselib/Utility.h"
+#include "netwrapper/IClient.h"
 #include "netwrapper/ITimerCallback.h"
 
 namespace hq {
